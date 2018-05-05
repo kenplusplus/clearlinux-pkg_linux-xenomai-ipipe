@@ -1,0 +1,1 @@
+modprobe.blacklist=ccipciedrv,aalbus,aalrms,aalrmc console=tty0 console=ttyS0,9600 init=/usr/lib/systemd/systemd initcall_debug isolcpus=1 i915.enable_dc=0 i915.enable_rc6=0 i915.enable_execlists=0 i915.disable_power_well=0 processor.max_cstate=0 intel_idle.max_cstate=0 intel_pstate=disable idle=halt xenomai.smi=enabled nosmap rw
