@@ -21,17 +21,14 @@ Source3:        https://xenomai.org/downloads/ipipe/v4.x/x86/ipipe-core-4.9.90-x
 BuildRequires:  bash >= 2.03
 BuildRequires:  bc
 BuildRequires:  binutils-dev
-BuildRequires:  dracut
 BuildRequires:  elfutils-dev
 BuildRequires:  make >= 3.78
 BuildRequires:  openssl-dev
 BuildRequires:  flex
 BuildRequires:  bison
 BuildRequires:  kmod
-BuildRequires:  open-iscsi
 BuildRequires:  linux-firmware
-BuildRequires:  systemd
-BuildRequires:  util-linux
+BuildRequires:  kernel-install
 
 Requires: systemd-console
 
@@ -133,9 +130,6 @@ InstallKernel() {
     rm -f %{buildroot}/usr/lib/modules/${Kversion}/source
 
     ln -s org.clearlinux.${Target}.%{version}-%{release} %{buildroot}/usr/lib/kernel/default-${Target}
-    dracut --kmoddir %{buildroot}/usr/lib/modules/%{version}-%{release}.${Target} \
-           --kver %{version}-%{release}.${Target} \
-           %{buildroot}/usr/lib/kernel/initrd-org.clearlinux.${Target}.%{version}-%{release}
 }
 
 InstallKernel %{ktarget}  %{kversion}
@@ -147,7 +141,7 @@ rm -rf %{buildroot}/usr/lib/firmware
 %dir /usr/lib/modules/%{kversion}
 /usr/lib/kernel/config-%{kversion}
 /usr/lib/kernel/cmdline-%{kversion}
-/usr/lib/kernel/initrd-org.clearlinux.%{ktarget}.%{version}-%{release}
+
 /usr/lib/kernel/org.clearlinux.%{ktarget}.%{version}-%{release}
 /usr/lib/kernel/default-%{ktarget}
 /usr/lib/modules/%{kversion}/kernel
