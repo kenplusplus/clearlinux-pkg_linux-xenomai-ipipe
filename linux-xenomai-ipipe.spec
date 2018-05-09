@@ -14,6 +14,7 @@ Source0:        https://www.kernel.org/pub/linux/kernel/v4.x/linux-4.9.90.tar.xz
 Source1:        config
 Source2:        cmdline
 Source3:        https://xenomai.org/downloads/ipipe/v4.x/x86/ipipe-core-4.9.90-x86-6.patch
+Source4:        https://xenomai.org/downloads/xenomai/stable/xenomai-3.0.6.tar.bz2
 
 %define ktarget  xenomai-ipipe
 %define kversion %{version}-%{release}.%{ktarget}
@@ -68,11 +69,15 @@ Linux kernel extra files
 
 %prep
 %setup -q -n linux-4.9.90
+%setup -T -q -c -a 4 -n xenomai-3.0.6
+
+cd %{_builddir}/xenomai-3.0.6/xenomai-3.0.6
+scripts/prepare-kernel.sh --linux=%{_builddir}/linux-4.9.90 --ipipe=%{_sourcedir}/ipipe-core-4.9.90-x86-6.patch --arch=x86_64
 
 #     000X  cve, bugfixes patches
 
 #     00XY  Mainline patches, upstream backports
-%patch0021 -p1
+#%patch0021 -p1
 
 #     01XX  Clear Linux patches
 
@@ -82,7 +87,7 @@ Linux kernel extra files
 #    200X: Open Programmable Acceleration Engine (OPAE)
 
 #	300X: sysdig
-
+cd %{_builddir}/linux-4.9.90
 cp %{SOURCE1} .
 
 cp -a /usr/lib/firmware/i915 firmware/
@@ -95,6 +100,7 @@ BuildKernel() {
     Arch=x86_64
     ExtraVer="-%{release}.${Target}"
 
+    cd %{_builddir}/linux-4.9.90
     perl -p -i -e "s/^EXTRAVERSION.*/EXTRAVERSION = ${ExtraVer}/" Makefile
 
     make O=${Target} -s mrproper
