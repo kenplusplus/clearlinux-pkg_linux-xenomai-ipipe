@@ -1,0 +1,4 @@
+ipipe-core*.patch
+linux-*.tar.xz
+xenomai-*.tar.bz2
+results/
