@@ -14,7 +14,7 @@ Source0:        https://www.kernel.org/pub/linux/kernel/v4.x/linux-4.9.90.tar.xz
 Source1:        config
 Source2:        cmdline
 Source3:        https://xenomai.org/downloads/ipipe/v4.x/x86/ipipe-core-4.9.90-x86-6.patch
-Source4:        https://xenomai.org/downloads/xenomai/stable/xenomai-3.0.6.tar.bz2
+Source4:        https://xenomai.org/downloads/xenomai/stable/xenomai-3.0.5.tar.bz2
 
 %define ktarget  xenomai-ipipe
 %define kversion %{version}-%{release}.%{ktarget}
@@ -69,9 +69,9 @@ Linux kernel extra files
 
 %prep
 %setup -q -n linux-4.9.90
-%setup -T -q -c -a 4 -n xenomai-3.0.6
+%setup -T -q -c -a 4 -n xenomai-3.0.5
 
-cd %{_builddir}/xenomai-3.0.6/xenomai-3.0.6
+cd %{_builddir}/xenomai-3.0.5/xenomai-3.0.5
 scripts/prepare-kernel.sh --linux=%{_builddir}/linux-4.9.90 --ipipe=%{_sourcedir}/ipipe-core-4.9.90-x86-6.patch --arch=x86_64
 
 #     000X  cve, bugfixes patches
@@ -122,6 +122,7 @@ InstallKernel() {
     KernelDir=%{buildroot}/usr/lib/kernel
 
     mkdir   -p ${KernelDir}
+    cd %{_builddir}/linux-4.9.90
     install -m 644 ${Target}/.config    ${KernelDir}/config-${Kversion}
     install -m 644 ${Target}/System.map ${KernelDir}/System.map-${Kversion}
     install -m 644 ${Target}/vmlinux    ${KernelDir}/vmlinux-${Kversion}
